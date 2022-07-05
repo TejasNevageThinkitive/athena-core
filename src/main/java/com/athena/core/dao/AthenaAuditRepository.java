@@ -1,4 +1,4 @@
-package com.athena.core.repository;
+package com.athena.core.dao;
 
 
 import com.athena.core.model.AthenaAudit;

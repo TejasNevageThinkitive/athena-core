@@ -53,7 +53,7 @@ public class DataConfig {
 
 	@Configuration
 	@EnableTransactionManagement
-	@EnableJpaRepositories(basePackages = { "com.athena.core.repository" ,"com.inetgration.ehr.data.repository"})
+	@EnableJpaRepositories(basePackages = { "com.athena.core.dao" ,"com.inetgration.ehr.data.repository"})
 	public class MainDbConfig {
 
 		@Value("${spring.datasource.driver-class-name}")

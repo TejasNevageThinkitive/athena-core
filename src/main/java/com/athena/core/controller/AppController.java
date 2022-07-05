@@ -1,8 +1,8 @@
 package com.athena.core.controller;
 
 import com.athena.core.exception.CoverMeException;
-import com.athena.core.exception.Response;
-import com.athena.core.exception.ResponseCode;
+import com.athena.core.response.Response;
+import com.athena.core.response.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

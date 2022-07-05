@@ -1,7 +1,7 @@
 package com.athena.core.service;
 
 import com.athena.core.exception.CoverMeException;
-import com.athena.core.exception.ResponseCode;
+import com.athena.core.response.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

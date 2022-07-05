@@ -1,4 +1,4 @@
-package com.athena.core.exception;
+package com.athena.core.response;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

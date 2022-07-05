@@ -1,5 +1,7 @@
 package com.athena.core.exception;
 
+import com.athena.core.response.ResponseCode;
+
 public class CoverMeException extends Exception{
 
     private ResponseCode errorCode;

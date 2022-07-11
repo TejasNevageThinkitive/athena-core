@@ -19,37 +19,25 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @Slf4j
-public class AuthConfig {
+public class EHRAthenaConfig {
 
     // To call Athena API
     @Autowired
     private RestTemplate restTemplate;
 
+
     // Athena creds
-    private String athenaClientID;
-    private String athenaClientSecret;
-    private String athenaUrl;
+    private String athenaClientID = "0oad6x3rw5yKe56N1297";
+    private String athenaClientSecret ="dQkDc2x6OR0_k2CQWwVcFN6ub-K5XLnlRtYh6cQD";
+    private String athenaUrl="https://api.preview.platform.athenahealth.com/oauth2/v1";
 
 
     //Athena token expiration config
     private String liveToken = null;
     private long tokenTime = 0;
-    private long tokenExpirationTime;
+    private long tokenExpirationTime=1800000;
 
 
-    @Autowired
-    public AuthConfig(RestTemplate restTemplate,
-                      @Value("${athena.clientId}") String clientId,
-                      @Value("${athena.secretId}") String clientSecret,
-                      @Value("${athena.oauth.url}") String url,
-                      @Value("${athena.token.expiration-time}") long tokenExpirationTime) {
-        this.restTemplate = restTemplate;
-        this.athenaClientID = clientId;
-        this.athenaClientSecret = clientSecret;
-        this.athenaUrl = url;
-        this.tokenExpirationTime = tokenExpirationTime;
-
-    }
 
 
     public String getAccessToken() {

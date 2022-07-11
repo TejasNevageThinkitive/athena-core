@@ -11,11 +11,8 @@ import java.net.URI;
 @Slf4j
 public class AthenaRoutes {
 
-    private final String url;
+    private String url ="https://api.preview.platform.athenahealth.com/v1";
 
-    public AthenaRoutes(@Value("${athena.url}") final String url){
-        this.url = url;
-    }
 
     public URI searchPatients(int practiceId,String searchType,String searchTerm){
         return UriComponentsBuilder.fromHttpUrl(url)

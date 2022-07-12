@@ -11,8 +11,9 @@ import java.net.URI;
 @Slf4j
 public class AthenaRoutes {
 
+//    @Value("${athena.url}")
+//    private String url;
     private String url ="https://api.preview.platform.athenahealth.com/v1";
-
 
     public URI searchPatients(int practiceId,String searchType,String searchTerm){
         return UriComponentsBuilder.fromHttpUrl(url)
@@ -22,7 +23,7 @@ public class AthenaRoutes {
                 .build(practiceId);
     }
 
-    public URI pullPatientsLocation(int practiceId,int departmentId ){
+    public URI pullPatientsLocation(int practiceId,String departmentId ){
         return UriComponentsBuilder.fromHttpUrl(url)
                 .path("/{practiceid}/chart/configuration/patientlocations")
                 .queryParam("departmentid",departmentId)
@@ -57,7 +58,7 @@ public class AthenaRoutes {
                 .build(practiceId,patientId);
     }
 
-    public URI pullEncounter(int practiceId, int patientId,int departmentId){
+    public URI pullEncounter(int practiceId, int patientId,String departmentId){
         return UriComponentsBuilder.fromHttpUrl(url)
                 .path("/{practiceid}/chart/{patientid}/encounters")
                 .queryParam("departmentid",departmentId)

@@ -15,6 +15,6 @@ public class AthenaEncounterRequest {
 
     private int patientId;
 
-    private int departmentId;
+    private String departmentId;
 
 }

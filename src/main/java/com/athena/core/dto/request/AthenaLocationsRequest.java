@@ -9,5 +9,5 @@ public class AthenaLocationsRequest {
 
     private int practiceId;
 
-    private  int departmentId;
+    private  String departmentId;
 }

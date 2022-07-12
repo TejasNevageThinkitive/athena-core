@@ -31,6 +31,12 @@ public class EHRAthenaConfig {
     private String athenaClientSecret ="dQkDc2x6OR0_k2CQWwVcFN6ub-K5XLnlRtYh6cQD";
     private String athenaUrl="https://api.preview.platform.athenahealth.com/oauth2/v1";
 
+//    @Value("${athena.clientId}")
+//    private String athenaClientID;
+//    @Value("${athena.secretId}")
+//    private String athenaClientSecret;
+//    @Value("${athena.oauth.url}")
+//    private String athenaUrl;
 
     //Athena token expiration config
     private String liveToken = null;

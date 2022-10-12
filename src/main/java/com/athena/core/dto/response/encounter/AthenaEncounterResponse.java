@@ -26,7 +26,7 @@ public class AthenaEncounterResponse {
     public String lastreopened;
     public String lastupdated;
     public String patientlocation;
-    public int patientlocationid;
+    public String patientlocationid;
     public String patientstatus;
     public int patientstatusid;
     public String providerfirstname;

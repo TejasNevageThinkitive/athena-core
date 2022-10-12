@@ -25,7 +25,7 @@ public class AthenaProvidersResponse {
     public String otherprovideridlist;
     public String personalpronouns;
     public String providergrouplist;
-    public int providerid;
+    public String providerid;
     public String providertype;
     public String providertypeid;
     public String providerusername;

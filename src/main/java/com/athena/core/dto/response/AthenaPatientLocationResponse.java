@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AthenaPatientLocationResponse {
 
-
     private Boolean defaultoncheckin;
-    private int patientlocationid;
+    private String patientlocationid;
     private String name;
 
 }

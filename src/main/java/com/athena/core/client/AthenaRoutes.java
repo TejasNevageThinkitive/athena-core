@@ -25,7 +25,7 @@ public class AthenaRoutes {
 
     public URI pullPatientsLocation(int practiceId,String departmentId ){
         return UriComponentsBuilder.fromHttpUrl(url)
-                .path("/{practiceid}/chart/configuration/patientlocations")
+                .path("/{practiceid}/misc/patientlocations")
                 .queryParam("departmentid",departmentId)
                 .build(practiceId);
     }
@@ -71,6 +71,7 @@ public class AthenaRoutes {
                 .queryParam("firstname",firstName)
                 .queryParam("lastname",lastName)
                 .queryParam("dob",dob)
+                .queryParam("showinsurance",true)
                 .build(practiceId);
     }
 

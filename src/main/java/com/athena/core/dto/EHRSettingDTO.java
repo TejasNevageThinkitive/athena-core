@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EHRSetting {
+public class EHRSettingDTO {
 
     private int id;
 

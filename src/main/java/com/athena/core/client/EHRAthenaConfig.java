@@ -1,10 +1,9 @@
 package com.athena.core.client;
 
 
-
 import com.athena.core.dto.AuthResponse;
+import com.athena.core.dto.EHRSettingDTO;
 import com.athena.core.exception.AthenaException;
-import com.athena.core.dao.DBRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -25,9 +23,6 @@ public class EHRAthenaConfig {
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private DBRepo DBRepo;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -51,12 +46,12 @@ public class EHRAthenaConfig {
     private long tokenExpirationTime=1800000;
 
 
-    public String getAccessToken(String orgId) {
+    public String getAccessToken(String orgId, EHRSettingDTO ehrSettingDTO) {
         long elapsedTime = System.currentTimeMillis() - tokenTime;
 
         if (liveToken == null || elapsedTime > tokenExpirationTime) {
             liveToken = null; // remove old token
-            liveToken = getNewAccessTokenFromAthena(orgId); //generate new token
+            liveToken = getNewAccessTokenFromAthena(orgId, ehrSettingDTO); //generate new token
             tokenTime = System.currentTimeMillis();
             log.info("liveToken:--{}", liveToken);
             return liveToken;
@@ -64,14 +59,12 @@ public class EHRAthenaConfig {
         return liveToken;
     }
 
-    private String getNewAccessTokenFromAthena(String orgId) {
-
-        Object[][] result = DBRepo.getDataFromDatabase(orgId);
-        log.info("Client Id : "+result[0][3].toString());
-        log.info("Client Secrete : "+result[0][4].toString());
+    private String getNewAccessTokenFromAthena(String orgId, EHRSettingDTO ehrSettingDTO) {
+        log.info("Client Id : "+ehrSettingDTO.getClientId());
+        log.info("Client Secrete : "+ehrSettingDTO.getClientSecrete());
 
         HttpHeaders headers = new HttpHeaders();
-        String encodedAuth = Base64.encodeBase64String(String.format("%s:%s", result[0][3].toString(), result[0][4].toString()).getBytes());
+        String encodedAuth = Base64.encodeBase64String(String.format("%s:%s", ehrSettingDTO.getClientId(), ehrSettingDTO.getClientSecrete()).getBytes());
         log.info("encodedAuth:-"+encodedAuth);
         headers.set(AUTHORIZATION, "Basic "+ encodedAuth);
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();

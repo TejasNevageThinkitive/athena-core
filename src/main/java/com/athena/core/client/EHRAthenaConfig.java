@@ -4,13 +4,15 @@ package com.athena.core.client;
 
 import com.athena.core.dto.AuthResponse;
 import com.athena.core.exception.AthenaException;
+import com.athena.core.dao.DBRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -21,14 +23,19 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Slf4j
 public class EHRAthenaConfig {
 
-    // To call Athena API
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private DBRepo DBRepo;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     // Athena creds
-    private String athenaClientID = "0oad6x3rw5yKe56N1297";
-    private String athenaClientSecret ="dQkDc2x6OR0_k2CQWwVcFN6ub-K5XLnlRtYh6cQD";
+//    private String athenaClientID = "0oad6x3rw5yKe56N1297";
+//    private String athenaClientSecret ="dQkDc2x6OR0_k2CQWwVcFN6ub-K5XLnlRtYh6cQD";
     private String athenaUrl="https://api.preview.platform.athenahealth.com/oauth2/v1";
 
 //    @Value("${athena.clientId}")
@@ -44,14 +51,12 @@ public class EHRAthenaConfig {
     private long tokenExpirationTime=1800000;
 
 
-
-
-    public String getAccessToken() {
+    public String getAccessToken(String orgId) {
         long elapsedTime = System.currentTimeMillis() - tokenTime;
 
         if (liveToken == null || elapsedTime > tokenExpirationTime) {
             liveToken = null; // remove old token
-            liveToken = getNewAccessTokenFromAthena(); //generate new token
+            liveToken = getNewAccessTokenFromAthena(orgId); //generate new token
             tokenTime = System.currentTimeMillis();
             log.info("liveToken:--{}", liveToken);
             return liveToken;
@@ -59,9 +64,14 @@ public class EHRAthenaConfig {
         return liveToken;
     }
 
-    private String getNewAccessTokenFromAthena() {
+    private String getNewAccessTokenFromAthena(String orgId) {
+
+        Object[][] result = DBRepo.getDataFromDatabase(orgId);
+        log.info("Client Id : "+result[0][3].toString());
+        log.info("Client Secrete : "+result[0][4].toString());
+
         HttpHeaders headers = new HttpHeaders();
-        String encodedAuth = Base64.encodeBase64String(String.format("%s:%s", athenaClientID, athenaClientSecret).getBytes());
+        String encodedAuth = Base64.encodeBase64String(String.format("%s:%s", result[0][3].toString(), result[0][4].toString()).getBytes());
         log.info("encodedAuth:-"+encodedAuth);
         headers.set(AUTHORIZATION, "Basic "+ encodedAuth);
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
@@ -72,9 +82,7 @@ public class EHRAthenaConfig {
 
         HttpEntity httpEntity = new HttpEntity<>(parameters, headers);
         log.info("httpEntity {}", httpEntity);
-        return AthenaException.AthenaAPIErrorHandling(() -> {
-            return restTemplate.postForObject(athenaUrl+"/token", httpEntity, AuthResponse.class).getAccessToken();
-        });
+        return AthenaException.AthenaAPIErrorHandling(() -> restTemplate.postForObject(athenaUrl+"/token", httpEntity, AuthResponse.class).getAccessToken());
     }
 
 }
